@@ -40,10 +40,10 @@ const Dashboard = () => {
                                         <div className='text-center text-2xl'>Username : {item.username}</div>
                                         <div className='text-center'>Social Media handles and their images</div>
 
-                                        <div className='flex overflow-x-scroll my-2 justify-center'>
+                                        <div className='flex overflow-x-scroll my-2 justify-center '>
                                             {
                                                 item.socialhandles.map((social, scIndex) => (
-                                                    <div key={scIndex} className='mx-3'>
+                                                    <div key={scIndex} className='mx-3 p-3 border border-black rounded-md'>
                                                         <div className='text-center'>{social.name}</div>
                                                         <div>
                                                             {

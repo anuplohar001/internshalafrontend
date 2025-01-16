@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 const User = () => {
 
+    const [pending, setPending] = useState(false)
     const [userDetails, setUserDetails] = useState({ username: "", socialhandle: "" })
     const [selectedImages, setselectedImages] = useState([])
     const handleChange = (e) => {
@@ -20,6 +21,7 @@ const User = () => {
     const handleSubmit = async (e) => {
         
         e.preventDefault()
+        setPending(true)
         const formData = new FormData()
 
         Object.keys(userDetails).forEach((key) => {
@@ -30,13 +32,20 @@ const User = () => {
             formData.append("images", selectedImages[i]);
         }
 
-        const response = await axios.post("https://backend-topaz-eight-48.vercel.app/userdetails", formData);
-        
-        if(response.status === 200)
-        {
-            alert("user created")
-            setUserDetails({ username: "", socialhandle: ""})
-            setselectedImages([])
+        try {
+            
+            const response = await axios.post("https://backend-topaz-eight-48.vercel.app/userdetails", formData);
+            
+            if(response.status === 200)
+            {
+                alert("user created")
+                setUserDetails({ username: "", socialhandle: ""})
+                setselectedImages([])
+                setPending(false)
+            }
+        } catch (error) {
+            console.log(error)
+            setPending(false)
         }
     }
 
@@ -57,7 +66,13 @@ const User = () => {
                 <button type='submit' className='border-2 p-2 w-20 rounded-lg bg-purple-900 text-white hover:bg-purple-600 duration-500'>
                     Submit
                 </button>
+            {
+                pending && (<div className='text-xl font-bold text-center'>
+                    Creating Social handle....
+                </div>)
+            }
             </form>
+            
         </div>
     )
 }
